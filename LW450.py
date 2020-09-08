@@ -180,6 +180,28 @@ class LW450:
 		self.printQueue.put((jobid.STOP,None))
 		self.printdaemon.join()
 	
+	#Print a pyx canvas
+	def printCanvas(self,c,labeltype='11353_left'):
+	
+		#Get a new job code
+		id = self.job.getid()
+		jobname = BASE_JOB_NAME+str(id)
+		
+		#Get label dimensions
+		label = self.labeltypes[labeltype]
+		
+		#Set up page dimensions
+		labelbox = bbox=pyx.bbox.bbox(0,0,label['centre'][0]+label['size'][0]/2,label['centre'][1]+label['size'][1]/2)
+		#Create pdf
+		pg = pyx.document.page(c,fittosize=1, margin=0, bboxenlarge=0,bbox=labelbox)
+		doc = pyx.document.document([pg])
+		doc.writePDFfile(jobname)
+		
+		#Start thread for conversion to print data
+		self.producerthreads.append(clpdfproc(self.printQueue,id))
+		self.producerthreads[-1].start()
+		
+	
 	#Print a text label
 	def printText(self,text,dir='vertical',labeltype='11353_left',textsize='auto',linespacestretch = 1.0,align='centre'):
 		#Get a new job code
