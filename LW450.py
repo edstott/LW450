@@ -109,7 +109,7 @@ class clpdfproc(Thread):
 		jobname = BASE_JOB_NAME+str(self.jobid)
 
 		#Use ghostscript to render pdf to black and white png
-		subprocess.run(['gswin32c','-sDEVICE=pngmono','-r300','-sOutputFile='+jobname+'.png','-dNOPAUSE',jobname+'.pdf','-c','quit'],stdout=subprocess.PIPE)
+		subprocess.run(['gswin64c','-sDEVICE=pngmono','-r300','-sOutputFile='+jobname+'.png','-dNOPAUSE',jobname+'.pdf','-c','quit'],stdout=subprocess.PIPE)
 
 		#Convert png to print data
 		data = encodeimfileFn(jobname+'.png')
@@ -134,7 +134,8 @@ class LW450:
 	#Label dimensions
 	labeltypes = {
 		'11353_left':{'centre':(5.3,10.35), 'size':(10.6,20.7)},
-		'11353_right':{'centre':(18,10.35), 'size':(10.6,20.7)}
+		'11353_right':{'centre':(18,10.35), 'size':(10.6,20.7)},
+		'99014':{'centre':(27,50.5), 'size':(45,101)}
 		}
 	
 	#Named font sizes
